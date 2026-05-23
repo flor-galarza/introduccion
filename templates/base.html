@@ -1,5 +1,6 @@
 {% load tailwind_tags %}
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +8,102 @@
 
     {% tailwind_css %}
 
-
-    <title>Document</title>
+    <title>{% block title %}Mi Blog{% endblock title %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .glow-btn {
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+            transform: translateY(-1px);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7c3aed, #6366f1);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+        }
+    </style>
 </head>
-<body>
+<body class="text-gray-200">
 
-    {% block content %}{% endblock content %}
-    
+    <!-- Navbar -->
+    <nav class="border-b border-gray-800 bg-gray-900 bg-opacity-60 backdrop-filter backdrop-blur-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="{% url 'home' %}" class="flex items-center space-x-2 group">
+                <span class="text-2xl">✦</span>
+                <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400 group-hover:from-violet-300 group-hover:to-indigo-300 transition-all duration-300">Mi Blog</span>
+            </a>
+            <div class="flex items-center space-x-8">
+                <a href="{% url 'home' %}" class="nav-link text-gray-300 hover:text-white text-sm font-medium">Inicio</a>
+                <a href="{% url 'blog:home' %}" class="nav-link text-gray-300 hover:text-white text-sm font-medium">Blog</a>
+                <a href="{% url 'blog:create' %}" class="glow-btn text-white px-5 py-2 rounded-lg text-sm font-semibold">
+                    + Nuevo Post
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 py-12 fade-in">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-auto">
+        <div class="max-w-5xl mx-auto px-6 py-8 text-center">
+            <p class="text-gray-500 text-sm">Hecho con 💜 — Proyecto Informatorio</p>
+        </div>
+    </footer>
+
 </body>
 </html>

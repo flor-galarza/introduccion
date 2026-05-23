@@ -1,7 +1,48 @@
-<form method="POST">
-{% csrf_token %}
-title{{form.title}}
-<br>
-content{{form.content}}
-<button type="submit" >Update</button>
-</form>
+{% extends 'base.html' %}
+
+{% block title %}Editar: {{ post.title }} — Mi Blog{% endblock title %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- Back link -->
+    <a href="{% url 'blog:detail' post.id %}" class="inline-flex items-center text-gray-400 hover:text-violet-400 transition-colors duration-200 mb-8 text-sm group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver al post
+    </a>
+
+    <div class="glass-card rounded-2xl p-10">
+        <h1 class="text-3xl font-bold text-white mb-2">Editar post</h1>
+        <p class="text-gray-400 mb-8">Modificá el contenido de tu artículo</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-6">
+                <label for="id_title" class="block text-sm font-medium text-gray-300 mb-2">Título</label>
+                <input type="text" name="title" id="id_title" 
+                       value="{{ form.title.value }}"
+                       class="input-field w-full px-4 py-3 rounded-xl text-base"
+                       required>
+            </div>
+
+            <div class="mb-8">
+                <label for="id_content" class="block text-sm font-medium text-gray-300 mb-2">Contenido</label>
+                <textarea name="content" id="id_content" rows="8"
+                          class="input-field w-full px-4 py-3 rounded-xl text-base resize-y"
+                          required>{{ form.content.value }}</textarea>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button type="submit" class="glow-btn text-white px-8 py-3 rounded-xl text-sm font-semibold">
+                    Guardar cambios
+                </button>
+                <a href="{% url 'blog:detail' post.id %}" class="text-gray-400 hover:text-gray-300 text-sm transition-colors duration-200">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
